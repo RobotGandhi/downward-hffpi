@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = git@github.com:aibasel/downward.git
+	branch = main
+	commit = 80f9815824738862def6c378b86f0f19cf9267b4
+	parent = ed3cc665ea63dbb1e1c7cb66623f5e35b639a230
+	method = merge
+	cmdver = 0.4.3
