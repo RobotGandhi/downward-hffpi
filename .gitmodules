@@ -1,0 +1,3 @@
+[submodule "planner/dlplan"]
+	path = planner/dlplan
+	url = git@github.com:rleap-project/dlplan.git
