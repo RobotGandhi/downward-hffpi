@@ -45,9 +45,9 @@ endif(CCACHE_FOUND)
 find_program(CMAKE_C_COMPILER NAMES $ENV{CC} cc gcc PATHS ENV PATH NO_DEFAULT_PATH)
 find_program(CMAKE_CXX_COMPILER NAMES $ENV{CXX} c++ g++ PATHS ENV PATH NO_DEFAULT_PATH)
 
-set(PATH_DLPLAN_DEBUG ${CMAKE_CURRENT_SOURCE_DIR}/../../dlplan/installs/debug)
+set(PATH_DLPLAN_DEBUG ${CMAKE_CURRENT_SOURCE_DIR}/../libs/dlplan/installs/debug)
 message(STATUS "PATH_DLPLAN_DEBUG: ${PATH_DLPLAN_DEBUG}")
-set(PATH_DLPLAN_RELEASE ${CMAKE_CURRENT_SOURCE_DIR}/../../dlplan/installs/release)
+set(PATH_DLPLAN_RELEASE ${CMAKE_CURRENT_SOURCE_DIR}/../libs/dlplan/installs/release)
 message(STATUS "PATH_DLPLAN_RELEASE: ${PATH_DLPLAN_RELEASE}")
 
 # Path containing custom CMake modules

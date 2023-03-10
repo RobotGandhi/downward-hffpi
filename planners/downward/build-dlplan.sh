@@ -10,7 +10,7 @@ SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 cd ${SCRIPT_DIR}
 
-cd ../dlplan
+cd libs/dlplan
 
 PREFIX="$(realpath .)"/installs/"$BUILD_TYPE"
 BUILD_DIR="$(realpath .)"/builds/"$BUILD_TYPE"
