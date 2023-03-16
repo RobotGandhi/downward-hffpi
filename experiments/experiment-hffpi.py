@@ -15,7 +15,7 @@ import project
 
 DIR = Path(__file__).resolve().parent
 REPO = DIR.parent
-DOWNWARD_REPO = REPO / "planner" / "downward"
+DOWNWARD_REPO = REPO / "planners" / "downward"
 BENCHMARKS_DIR = REPO / "benchmarks"
 GP_DIR = REPO / "policies"
 if project.REMOTE:

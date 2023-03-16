@@ -4,7 +4,7 @@
 
 1. Clone recursively
 ```console
-git clone --recursively <link_to_repo>
+git clone --recursive git@github.com:drexlerd/downward-hffpi.git
 ```
 2. Create python3 virtual environment
 ```console
@@ -20,7 +20,8 @@ pip install -r requirements.txt
 ```
 5. Install planner
 ```console
-./planner/downward/build.py
+cd planners/downward
+./build.py
 ```
 
 ## How to run the planner
