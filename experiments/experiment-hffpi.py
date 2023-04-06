@@ -46,7 +46,7 @@ CONFIGS = [
     (f"ff-lookahead-policy-pref-ff", TRANSLATE_OPTIONS + ["--search-options", "--evaluator", FF, "--search", f"eager(alt([single(h), single(h, pref_only=true)], boost={BOOST}), preferred=[h], preferred_operators_policy=policy, policy_lookahead_limit=infinity, {SEARCH_OPTIONS})"]),
 
     (f"blind", TRANSLATE_OPTIONS + ["--search-options", "--evaluator", BLIND, "--search", f"eager(single(h), preferred=[], {SEARCH_OPTIONS})"]),
-    # (f"blind-pref-policy", TRANSLATE_OPTIONS + ["--search-options", "--evaluator", BLIND, "--search", f"eager(alt([single(h), single(h, pref_only=true)], boost={BOOST}), preferred=[], preferred_operators_policy=policy, {SEARCH_OPTIONS})"]),
+    (f"blind-pref-policy", TRANSLATE_OPTIONS + ["--search-options", "--evaluator", BLIND, "--search", f"eager(alt([single(h), single(h, pref_only=true)], boost={BOOST}), preferred=[], preferred_operators_policy=policy, {SEARCH_OPTIONS})"]),
     (f"blind-lookahead-policy", TRANSLATE_OPTIONS + ["--search-options", "--evaluator", BLIND, "--search", f"eager(single(h), preferred=[], preferred_operators_policy=policy, policy_lookahead_limit=infinity, {SEARCH_OPTIONS})"]),
 ]
 
@@ -177,7 +177,7 @@ exp.add_step("start", exp.start_runs)
 exp.add_fetcher(name="fetch")
 exp.add_parse_again_step()
 project.add_absolute_report(
-    exp, attributes=ATTRIBUTES, filter_algorithm=["blind", "blind-pref-policy", "blind-lookahead-policy", "ff-pref-policy", "ff-lookahead-50-policy", "ff-lookahead-policy", "ff-pref-ff", "ff-lookahead-policy-pref-ff"]
+    exp, attributes=ATTRIBUTES, filter_algorithm=["blind", "ff-pref-ff", "blind-lookahead-policy", "ff-pref-policy", "ff-lookahead-policy"]
 )
 
 exp.run_steps()
