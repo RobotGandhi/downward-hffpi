@@ -19,7 +19,7 @@ DOWNWARD_REPO = REPO / "planners" / "downward"
 BENCHMARKS_DIR = REPO / "benchmarks"
 GP_DIR = REPO / "policies"
 if project.REMOTE:
-    SUITE = ["transport_thesis_minus_0_0"]
+    SUITE = ["transport_thesis"]
     # SUITE = ["barman:p01.pddl", "blocksworld:p01.pddl", "childsnack:p01.pddl", "clear:p-50-0.pddl", "delivery:instance_3_2_0.pddl", "depots:p01.pddl", "driverlog:p01.pddl", "ferry:ferry-l3-c15.pddl", "freecell:p01.pddl", "gripper:p01.pddl", "miconic-with-fix:p01.pddl", "nomystery:p01.pddl", "n-puzzle:n-puzzle-3x3-s1140.pddl", "on:p-50-0.pddl", "parking:p01.pddl", "pipesworld-notankage:p01.pddl", "pipesworld-tankage:p01.pddl", "reward:instance_5x5_0.pddl", "satellite:p01.pddl", "sokoban:p01.pddl", "spanner:pfile01-001.pddl", "visitall:p01.pddl", "zenotravel:p01.pddl"]
     ENV = project.TetralithEnvironment(
         email="vikca761@student.liu.se",
