@@ -190,6 +190,8 @@ SearchStatus EagerSearch::step() {
         }
         assert(status == IN_PROGRESS);
         if (preferred_nodes.empty()) {
+            // policy has no preferred node.
+            std::cout << preferred_operators_policy->get_propositional_task().compute_dlplan_state(node->get_state()).str() << std::endl;
             break;
         } else {
             assert(preferred_nodes.size() == 1);
