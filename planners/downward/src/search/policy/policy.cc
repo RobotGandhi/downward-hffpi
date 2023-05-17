@@ -22,13 +22,13 @@ Policy::Policy(const options::Options &opts)
     }
     stringstream ss;
     ss << infile.rdbuf();
-    policy = dlplan::policy::PolicyReader().read(ss.str(), propositional_task.get_syntactic_element_factory_ref());
+    policy = dlplan::policy::PolicyReader().read(ss.str(), propositional_task.get_policy_builder(), propositional_task.get_syntactic_element_factory());
 }
 
 std::vector<std::shared_ptr<const dlplan::policy::Rule>>
 Policy::evaluate_conditions_eager(
     const State& state) {
-    return policy.evaluate_conditions_eager(
+    return policy->evaluate_conditions_eager(
         propositional_task.compute_dlplan_state(state),
         propositional_task.get_denotations_caches());
 }
@@ -38,7 +38,7 @@ Policy::evaluate_effects_lazy(
     const State& source,
     const State& target,
     const std::vector<std::shared_ptr<const dlplan::policy::Rule>>& rules) {
-    return policy.evaluate_effects_lazy(
+    return policy->evaluate_effects_lazy(
         propositional_task.compute_dlplan_state(source),
         propositional_task.compute_dlplan_state(target),
         rules,

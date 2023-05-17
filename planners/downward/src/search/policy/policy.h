@@ -12,10 +12,6 @@ class Options;
 namespace policy {
 
 class Policy {
-private:
-    extra_tasks::PropositionalTask propositional_task;
-    dlplan::policy::Policy policy;
-
 public:
     Policy(const options::Options &opts);
 
@@ -32,8 +28,13 @@ public:
     }
 
     const dlplan::policy::Policy& get_policy() const {
-        return policy;
+        return *policy;
     }
+
+private:
+    extra_tasks::PropositionalTask propositional_task;
+    std::shared_ptr<const dlplan::policy::Policy> policy;
+
 };
 
 }
