@@ -26,7 +26,7 @@ if project.REMOTE:
         extra_options="#SBATCH --account=snic2022-22-820",
         memory_per_cpu="5G")
 else:
-    SUITE = ["nurikabe"]
+    SUITE = ["transport_thesis"]
     ENV = project.LocalEnvironment(processes=4)
 
 TRANSLATE_OPTIONS = ["--translate-options", "--dump-predicates", "--dump-constants", "--dump-static-atoms", "--dump-goal-atoms"]
@@ -47,7 +47,7 @@ CONFIGS = [
 
     (f"blind", TRANSLATE_OPTIONS + ["--search-options", "--evaluator", BLIND, "--search", f"eager(single(h), preferred=[], {SEARCH_OPTIONS})"]),
     # (f"blind-pref-policy", TRANSLATE_OPTIONS + ["--search-options", "--evaluator", BLIND, "--search", f"eager(alt([single(h), single(h, pref_only=true)], boost={BOOST}), preferred=[], preferred_operators_policy=policy, {SEARCH_OPTIONS})"]),
-    # (f"blind-lookahead-policy", TRANSLATE_OPTIONS + ["--search-options", "--evaluator", BLIND, "--search", f"eager(single(h), preferred=[], preferred_operators_policy=policy, policy_lookahead_limit=infinity, {SEARCH_OPTIONS})"]),
+    (f"blind-lookahead-policy", TRANSLATE_OPTIONS + ["--search-options", "--evaluator", BLIND, "--search", f"eager(single(h), preferred=[], preferred_operators_policy=policy, policy_lookahead_limit=infinity, {SEARCH_OPTIONS})"]),
 ]
 
 BUILD_OPTIONS = []

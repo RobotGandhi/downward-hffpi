@@ -11,7 +11,7 @@
 (:predicates	
 	(at ?x1 - cell)
 	(connected ?x1 - cell ?x2 - cell)
-	(painted ?x1 - cell)
+	(painted ?x1 - cell) // INCLUDE GROUP
 	(group-source ?c - cell ?g - group)
 	(remaining-cells ?g - group ?n - num)
 	(group-painted ?g - group)
