@@ -19,14 +19,14 @@ DOWNWARD_REPO = REPO / "planners" / "downward"
 BENCHMARKS_DIR = REPO / "benchmarks"
 GP_DIR = REPO / "policies"
 if project.REMOTE:
-    SUITE = ["transport_thesis"]
+    SUITE = ["nurikabe"]
     # SUITE = ["barman:p01.pddl", "blocksworld:p01.pddl", "childsnack:p01.pddl", "clear:p-50-0.pddl", "delivery:instance_3_2_0.pddl", "depots:p01.pddl", "driverlog:p01.pddl", "ferry:ferry-l3-c15.pddl", "freecell:p01.pddl", "gripper:p01.pddl", "miconic-with-fix:p01.pddl", "nomystery:p01.pddl", "n-puzzle:n-puzzle-3x3-s1140.pddl", "on:p-50-0.pddl", "parking:p01.pddl", "pipesworld-notankage:p01.pddl", "pipesworld-tankage:p01.pddl", "reward:instance_5x5_0.pddl", "satellite:p01.pddl", "sokoban:p01.pddl", "spanner:pfile01-001.pddl", "visitall:p01.pddl", "zenotravel:p01.pddl"]
     ENV = project.TetralithEnvironment(
         email="vikca761@student.liu.se",
         extra_options="#SBATCH --account=snic2022-22-820",
         memory_per_cpu="5G")
 else:
-    SUITE = ["transport_thesis"]
+    SUITE = ["nurikabe"]
     ENV = project.LocalEnvironment(processes=4)
 
 TRANSLATE_OPTIONS = ["--translate-options", "--dump-predicates", "--dump-constants", "--dump-static-atoms", "--dump-goal-atoms"]
@@ -45,7 +45,7 @@ CONFIGS = [
     # (f"ff-lookahead-policy", TRANSLATE_OPTIONS + ["--search-options", "--evaluator", FF, "--search", f"eager(single(h), preferred=[], preferred_operators_policy=policy, policy_lookahead_limit=infinity, {SEARCH_OPTIONS})"]),
     # (f"ff-lookahead-policy-pref-ff", TRANSLATE_OPTIONS + ["--search-options", "--evaluator", FF, "--search", f"eager(alt([single(h), single(h, pref_only=true)], boost={BOOST}), preferred=[h], preferred_operators_policy=policy, policy_lookahead_limit=infinity, {SEARCH_OPTIONS})"]),
 
-    (f"blind", TRANSLATE_OPTIONS + ["--search-options", "--evaluator", BLIND, "--search", f"eager(single(h), preferred=[], {SEARCH_OPTIONS})"]),
+    # (f"blind", TRANSLATE_OPTIONS + ["--search-options", "--evaluator", BLIND, "--search", f"eager(single(h), preferred=[], {SEARCH_OPTIONS})"]),
     # (f"blind-pref-policy", TRANSLATE_OPTIONS + ["--search-options", "--evaluator", BLIND, "--search", f"eager(alt([single(h), single(h, pref_only=true)], boost={BOOST}), preferred=[], preferred_operators_policy=policy, {SEARCH_OPTIONS})"]),
     (f"blind-lookahead-policy", TRANSLATE_OPTIONS + ["--search-options", "--evaluator", BLIND, "--search", f"eager(single(h), preferred=[], preferred_operators_policy=policy, policy_lookahead_limit=infinity, {SEARCH_OPTIONS})"]),
 ]

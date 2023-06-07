@@ -1,37 +1,39 @@
+
 (define (domain nurikabe)
-(:requirements :typing)
+(:requirements :typing :adl)
 (:types
-	cell - object
-	num - object
-	group - object
+    cell num group - object
 )
 (:constants
-    	n0 - num
+    n0 - num
 )
-(:predicates	
-	(at ?x1 - cell)
-	(connected ?x1 - cell ?x2 - cell)
-	(painted ?x1 - cell) // INCLUDE GROUP
-	(group-source ?c - cell ?g - group)
-	(remaining-cells ?g - group ?n - num)
-	(group-painted ?g - group)
-	(moving)
-    	(painting ?g - group)
-    	(number-predecessor ?n1 - num ?n2 - num)
+(:predicates
+    (NEXT ?n1 - num ?n2 - num)
+    (CONNECTED ?c - cell ?c2 - cell)
+    (SOURCE ?x - cell ?g - group)
+    (painted ?r - cell)
+    (available ?x - cell)
+    (part-of ?x - cell ?y - group)
+    (blocked ?x - cell)
+    (remaining-cells ?x - group ?y - num)
+    (robot-pos ?x - cell)
+    (moving)
+    (painting ?g - group)
+    (group-painted ?g - group)
 )
-
 (:action move
     :parameters (?from - cell ?to - cell)
     :precondition
     (and
-        (connected ?from ?to)
+        (CONNECTED ?from ?to)
         (moving)
-        (at ?from)
+        (not (painted ?to))
+        (robot-pos ?from)
     )
     :effect
     (and
-        (at ?to)
-        (not (at ?from))
+        (robot-pos ?to)
+        (not (robot-pos ?from))
     )
 )
 
@@ -39,19 +41,19 @@
     :parameters (?c - cell ?g - group ?n1 - num ?n2 - num)
     :precondition
     (and
-        (number-predecessor ?n1 ?n2)
-        (group-source ?c ?g)
+        (NEXT ?n2 ?n1)
+        (SOURCE ?c ?g)
         (moving)
-        (at ?c)
-        (remaining-cells ?g ?n2)
+        (robot-pos ?c)
+        (remaining-cells ?g ?n1)
     )
     :effect
     (and
         (not (moving))
         (painting ?g)
         (painted ?c)
-        (remaining-cells ?g ?n1)
-        (not (remaining-cells ?g ?n2))
+        (remaining-cells ?g ?n2)
+        (not (remaining-cells ?g ?n1))
     )
 )
 
@@ -59,19 +61,43 @@
     :parameters (?from - cell ?to - cell ?g - group ?n1 - num ?n2 - num)
     :precondition
     (and
-        (number-predecessor ?n1 ?n2)
-        (connected ?from ?to)
+        (NEXT ?n2 ?n1)
+        (CONNECTED ?from ?to)
+        (not (painted ?to))
+        (not (blocked ?to))
         (painting ?g)
-        (remaining-cells ?g ?n2)
-        (at ?from)
+        (remaining-cells ?g ?n1)
+        (robot-pos ?from)
     )
     :effect
     (and
-        (at ?to)
-        (not (at ?from))
+        (robot-pos ?to)
+        (not (robot-pos ?from))
         (painted ?to)
-        (remaining-cells ?g ?n1)
-        (not (remaining-cells ?g ?n2))
+        (remaining-cells ?g ?n2)
+        (not (remaining-cells ?g ?n1))
+        (forall (?cadj - cell)
+            (when
+                (and
+                    (CONNECTED ?to ?cadj)
+                    (available ?cadj)
+                )
+                (and
+                    (not (available ?cadj))
+                    (part-of ?cadj ?g)
+                )
+            )
+        )
+        (forall (?cadj - cell)
+            (when
+                (and
+                    (CONNECTED ?to ?cadj)
+                    (not (available ?cadj))
+                    (not (part-of ?cadj ?g))
+                )
+                (blocked ?cadj)
+            )
+        )
     )
 )
 
