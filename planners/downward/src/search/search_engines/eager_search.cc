@@ -179,6 +179,10 @@ SearchStatus EagerSearch::step() {
     }
 
     ++num_lookaheads;
+    if (num_lookaheads > 1) {
+        //std::cout << preferred_operators_policy->get_propositional_task().compute_dlplan_state(node->get_state()).str() << std::endl;
+        return FAILED;
+    }
     // Always expand at least the current node (i=0).
     for (int i = 0; i <= policy_lookahead_limit; ++i) {
         vector<SearchNode> preferred_nodes;
@@ -194,6 +198,7 @@ SearchStatus EagerSearch::step() {
         } else {
             assert(preferred_nodes.size() == 1);
             node.emplace(preferred_nodes[0]);
+            cout << "CHANGING STATE" << endl;
         }
     }
     return IN_PROGRESS;
@@ -230,6 +235,17 @@ SearchStatus EagerSearch::expand(
     std::vector<std::shared_ptr<const dlplan::policy::Rule>> rules;
     if (preferred_operators_policy) {
         rules = preferred_operators_policy->evaluate_conditions_eager(s);
+        std::cout << "Current state: " << preferred_operators_policy->get_propositional_task().compute_dlplan_state(s).str() << std::endl;
+        for (auto rule : rules){
+            cout << "Chosen Rule: " << rule->compute_repr() << endl;
+        }
+        cout << endl;
+        for (auto numerical : preferred_operators_policy->get_policy().get_numericals()){
+            
+            std::cout << "repr: " << numerical->compute_repr() << std::endl;
+            std::cout << "value: " << numerical->evaluate(preferred_operators_policy->get_propositional_task().compute_dlplan_state(s)) << std::endl;
+        }
+        cout << endl;
     }
 
     for (OperatorID op_id : applicable_ops) {
@@ -248,11 +264,18 @@ SearchStatus EagerSearch::expand(
         }
         bool is_preferred = pref_h || pref_policy;
 
-        /*
-        if (pref_policy) {
-            cout << "Preferred: " << op.get_name() << endl;
-        }
-        */
+        
+        //if (pref_policy) {
+            cout << "Operation: " << op.get_name() << endl;
+            cout << "Preferred: " << (pref_policy ? "TRUE" : "FALSE") << endl;
+            std::cout << "Succeeding state: " << preferred_operators_policy->get_propositional_task().compute_dlplan_state(succ_state).str() << std::endl;
+            for (auto numerical : preferred_operators_policy->get_policy().get_numericals()){
+                
+                std::cout << "repr: " << numerical->compute_repr() << std::endl;
+                std::cout << "value: " << numerical->evaluate(preferred_operators_policy->get_propositional_task().compute_dlplan_state(succ_state)) << std::endl;
+            }
+        //}
+        
 
         SearchNode succ_node = search_space.get_node(succ_state);
 
@@ -261,12 +284,15 @@ SearchStatus EagerSearch::expand(
         }
 
         // Previously encountered dead end. Don't re-evaluate.
-        if (succ_node.is_dead_end())
+        if (succ_node.is_dead_end()){
+            cout << "DEAD END" << endl;
             continue;
-
+        }
         if (succ_node.is_new()) {
             // We have not seen this state before.
             // Evaluate and create a new node.
+
+            cout << "NEW" << endl;
 
             if (is_preferred) {
                 ++num_preferred_states;
@@ -284,6 +310,7 @@ SearchStatus EagerSearch::expand(
             statistics.inc_evaluated_states();
 
             if (open_list->is_dead_end(succ_eval_context)) {
+                cout << "DEAD END" << endl;
                 succ_node.mark_as_dead_end();
                 statistics.inc_dead_ends();
                 continue;
@@ -337,7 +364,21 @@ SearchStatus EagerSearch::expand(
                 // the g-value and the actual path that is traced back.
                 succ_node.update_parent(node, op, get_adjusted_cost(op));
             }
+        // } else {
+        //     cout << "ALREADY VISITED" << endl;
+        //     string status = "";
+        //     if (succ_node.is_new()){
+        //         status = "NEW";
+        //     } else if (succ_node.is_open()){
+        //         status = "OPEN";
+        //     } else if (succ_node.is_closed()){
+        //         status = "CLOSED";
+        //     } else if (succ_node.is_dead_end()){
+        //         status = "DEAD END";
+        //     }
+        //     cout << "Node state: " << status << endl;
         }
+        cout << endl;
     }
 
     return IN_PROGRESS;

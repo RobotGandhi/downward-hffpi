@@ -29,7 +29,7 @@ else:
     SUITE = ["nurikabe"]
     ENV = project.LocalEnvironment(processes=4)
 
-TRANSLATE_OPTIONS = ["--translate-options", "--dump-predicates", "--dump-constants", "--dump-static-atoms", "--dump-goal-atoms"]
+TRANSLATE_OPTIONS = ["--translate-options", "--dump-predicates", "--dump-constants", "--dump-static-atoms", "--dump-goal-atoms", "--keep-unimportant-variables"]
 
 FF = "h=ff(transform=adapt_costs(one))"
 BLIND = "h=blind(transform=adapt_costs(one))"
