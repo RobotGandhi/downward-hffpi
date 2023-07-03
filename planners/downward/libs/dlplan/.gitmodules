@@ -1,0 +1,3 @@
+[submodule "libs/scorpion"]
+	path = libs/scorpion
+	url = https://github.com/drexlerd/scorpion.git
