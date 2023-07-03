@@ -23,7 +23,7 @@ public:
         const State& target,
         const std::vector<std::shared_ptr<const dlplan::policy::Rule>>& rules);
 
-    const extra_tasks::PropositionalTask& get_propositional_task() const {
+    extra_tasks::PropositionalTask& get_propositional_task() {
         return propositional_task;
     }
 

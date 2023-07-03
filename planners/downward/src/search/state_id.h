@@ -10,6 +10,10 @@ namespace extra_tasks {
 class PropositionalTask;
 }
 
+namespace eager_search {
+    class EagerSearch;
+}
+
 class StateID {
     friend class StateRegistry;
     friend std::ostream &operator<<(std::ostream &os, StateID id);
@@ -19,6 +23,7 @@ class StateID {
     friend class PerStateArray;
     friend class PerStateBitset;
     friend class extra_tasks::PropositionalTask;
+    friend class eager_search::EagerSearch;
 
     int value;
     explicit StateID(int value_)

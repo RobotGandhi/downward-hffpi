@@ -28,9 +28,10 @@ Policy::Policy(const options::Options &opts)
 std::vector<std::shared_ptr<const dlplan::policy::Rule>>
 Policy::evaluate_conditions_eager(
     const State& state) {
-    return policy->evaluate_conditions_eager(
+    return policy->evaluate_conditions(
         propositional_task.compute_dlplan_state(state),
-        propositional_task.get_denotations_caches());
+        propositional_task.get_denotations_caches()
+        );
 }
 
 bool
@@ -38,11 +39,12 @@ Policy::evaluate_effects_lazy(
     const State& source,
     const State& target,
     const std::vector<std::shared_ptr<const dlplan::policy::Rule>>& rules) {
-    return policy->evaluate_effects_lazy(
+    return policy->evaluate_effects(
         propositional_task.compute_dlplan_state(source),
         propositional_task.compute_dlplan_state(target),
         rules,
-        propositional_task.get_denotations_caches()) != nullptr;
+        propositional_task.get_denotations_caches()
+        ) != nullptr;
 }
 
 }
