@@ -290,7 +290,7 @@ SearchStatus EagerSearch::expand(
         //}
         
         if (succ_state.get_id().value == 424) {
-            exit(1);
+            //exit(1);
         }
 
         SearchNode succ_node = search_space.get_node(succ_state);
