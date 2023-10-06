@@ -41,12 +41,10 @@ private:
         }
 
         if(!best_cell_denot.empty()) {
-            std::cout << "Painted Denot: " << concept_painted_denot.str() << std::endl;
             ConceptDenotation potential_cell_denot(num_objects);
             utils::Distances source_distances = utils::compute_multi_source_multi_target_shortest_distances(best_cell_denot, connection_denot, concept_painted_denot);
 
             for (auto potential_cell_id : concept_painted_denot.to_vector()) {
-                std::cout << "id: " << potential_cell_id << " source distance: " << source_distances[potential_cell_id] << std::endl;
                 if (source_distances[potential_cell_id] == 1){
                     potential_cell_denot.insert(potential_cell_id);
                 }
@@ -56,7 +54,6 @@ private:
             best_distance = INF;
             for (auto potential_cell_id : potential_cell_denot.to_vector()) {
                 int result = potential_distances[potential_cell_id];
-                std::cout << "id: " << potential_cell_id << " result: " << result << std::endl;
                 if (result < best_distance) {
                     best_distance = result;
                     best_adjacent_cell = potential_cell_id;

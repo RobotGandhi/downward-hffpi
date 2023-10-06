@@ -8,25 +8,40 @@
     n0 - num
 )
 (:predicates
-    (next ?n1 - num ?n2 - num)
-    (connected ?c - cell ?c2 - cell)
-    (source ?x - cell ?g - group)
+    (NEXT ?n1 - num ?n2 - num)
+    ; Defines the graph structure
+    (CONNECTED ?c - cell ?c2 - cell)
+    ; The initial position from which the robot must start painting
+    (SOURCE ?x - cell ?g - group)
+    ; Whether a tile has been painted
     (painted ?r - cell ?g - group)
+    ; A cell does not belong to any group
     (available ?x - cell)
+    ; Whether a cell "belongs to" a group. This happens when an adjacent cell belongs to such group
     (part-of ?x - cell ?y - group)
+    ; A cell belongs to two different groups so it cannot be painted of any color
+    (blocked ?x - cell)
+    ; How many tiles remain to be painted for every group
     (remaining-cells ?x - group ?y - num)
+    ; Position of the robot
     (robot-pos ?x - cell)
+    ; The robot is currently not painting
     (moving)
+    ; The robot is currently painting a group
     (painting ?g - group)
+    ; The robot has painted a group
     (group-painted ?g - group)
 )
 (:action move
     :parameters (?from - cell ?to - cell)
     :precondition
     (and
-        (connected ?from ?to)
+        (CONNECTED ?from ?to)
         (moving)
         (robot-pos ?from)
+        (forall (?g - group)
+            (not (painted ?to ?g))
+	)
     )
     :effect
     (and
@@ -39,8 +54,8 @@
     :parameters (?c - cell ?g - group ?n1 - num ?n2 - num)
     :precondition
     (and
-        (next ?n2 ?n1)
-        (source ?c ?g)
+        (NEXT ?n2 ?n1)
+        (SOURCE ?c ?g)
         (moving)
         (robot-pos ?c)
         (remaining-cells ?g ?n1)
@@ -52,25 +67,17 @@
         (painted ?c ?g)
         (remaining-cells ?g ?n2)
         (not (remaining-cells ?g ?n1))
-        (forall (?cadj - cell)
-            (when 
-            	(and
-            	    (connected ?to ?cadj)
-            	    (not (part-of ?cadj ?g))
-            	)
-            	(part-of ?cadj ?g)
-            )
-        )
     )
 )
-
 
 (:action move-painting
     :parameters (?from - cell ?to - cell ?g - group ?n1 - num ?n2 - num)
     :precondition
     (and
-        (next ?n2 ?n1)
-        (connected ?from ?to)
+        (NEXT ?n2 ?n1)
+        (CONNECTED ?from ?to)
+        (not (painted ?to ?g))
+        (not (blocked ?to))
         (painting ?g)
         (remaining-cells ?g ?n1)
         (robot-pos ?from)
@@ -79,21 +86,29 @@
     (and
         (robot-pos ?to)
         (not (robot-pos ?from))
-        (when
-            (not (painted ?to ?g))
-            (and
-        	(painted ?to ?g)
-		(remaining-cells ?g ?n2)
-		(not (remaining-cells ?g ?n1))
-	    )
+        (painted ?to ?g)
+        (remaining-cells ?g ?n2)
+        (not (remaining-cells ?g ?n1))
+        (forall (?cadj - cell)
+            (when
+                (and
+                    (CONNECTED ?to ?cadj)
+                    (available ?cadj)
+                )
+                (and
+                    (not (available ?cadj))
+                    (part-of ?cadj ?g)
+                )
+            )
         )
         (forall (?cadj - cell)
-            (when 
-            	(and
-            	    (connected ?to ?cadj)
-            	    (not (part-of ?cadj ?g))
-            	)
-            	(part-of ?cadj ?g)
+            (when
+                (and
+                    (CONNECTED ?to ?cadj)
+                    (not (available ?cadj))
+                    (not (part-of ?cadj ?g))
+                )
+                (blocked ?cadj)
             )
         )
     )

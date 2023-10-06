@@ -179,10 +179,6 @@ SearchStatus EagerSearch::step() {
     }
 
     ++num_lookaheads;
-    if (num_lookaheads > 1) {
-        //std::cout << preferred_operators_policy->get_propositional_task().compute_dlplan_state(node->get_state()).str() << std::endl;
-        return FAILED;
-    }
     // Always expand at least the current node (i=0).
     for (int i = 0; i <= policy_lookahead_limit; ++i) {
         vector<SearchNode> preferred_nodes;
@@ -198,7 +194,7 @@ SearchStatus EagerSearch::step() {
         } else {
             assert(preferred_nodes.size() == 1);
             node.emplace(preferred_nodes[0]);
-            cout << "CHANGING STATE" << endl;
+            // cout << "CHANGING STATE" << endl;
         }
     }
     return IN_PROGRESS;
@@ -237,27 +233,27 @@ SearchStatus EagerSearch::expand(
     if (preferred_operators_policy) {
         rules = preferred_operators_policy->evaluate_conditions_eager(s);
 
-        std::cout << "Current state: " << preferred_operators_policy->get_propositional_task().compute_dlplan_state(s).str() << std::endl;
-        for (const auto& boolean : preferred_operators_policy->get_policy().get_booleans()) {
-            std::cout << "boolean: " << boolean->get_index() 
-                      << " value: " << boolean->evaluate(preferred_operators_policy->get_propositional_task().compute_dlplan_state(s)) 
-                      << " value cache: " << boolean->evaluate(preferred_operators_policy->get_propositional_task().compute_dlplan_state(s), preferred_operators_policy->get_propositional_task().get_denotations_caches())
-                      << " repr: " << boolean->compute_repr() << std::endl;
-            assert(boolean->evaluate(preferred_operators_policy->get_propositional_task().compute_dlplan_state(s)) == boolean->evaluate(preferred_operators_policy->get_propositional_task().compute_dlplan_state(s), preferred_operators_policy->get_propositional_task().get_denotations_caches()));
-        }
-        for (const auto& numerical : preferred_operators_policy->get_policy().get_numericals()) {
-            std::cout << "numerical: " << numerical->get_index() 
-                      << " value: " << numerical->evaluate(preferred_operators_policy->get_propositional_task().compute_dlplan_state(s)) 
-                      << " value cache: " << numerical->evaluate(preferred_operators_policy->get_propositional_task().compute_dlplan_state(s), preferred_operators_policy->get_propositional_task().get_denotations_caches())
-                      << " repr: " << numerical->compute_repr() << std::endl;
-            assert(numerical->evaluate(preferred_operators_policy->get_propositional_task().compute_dlplan_state(s)) == numerical->evaluate(preferred_operators_policy->get_propositional_task().compute_dlplan_state(s), preferred_operators_policy->get_propositional_task().get_denotations_caches()));
-        }
-        for (auto rule : rules){
-            cout << "Candidate rule: " << rule->get_index() << " repr: " << rule->str() << endl;
-        }
+        // std::cout << "Current state: " << preferred_operators_policy->get_propositional_task().compute_dlplan_state(s).str() << std::endl;
+        // for (const auto& boolean : preferred_operators_policy->get_policy().get_booleans()) {
+        //     std::cout << "boolean: " << boolean->get_index() 
+        //               << " value: " << boolean->evaluate(preferred_operators_policy->get_propositional_task().compute_dlplan_state(s)) 
+        //               << " value cache: " << boolean->evaluate(preferred_operators_policy->get_propositional_task().compute_dlplan_state(s), preferred_operators_policy->get_propositional_task().get_denotations_caches())
+        //               << " repr: " << boolean->compute_repr() << std::endl;
+        //     assert(boolean->evaluate(preferred_operators_policy->get_propositional_task().compute_dlplan_state(s)) == boolean->evaluate(preferred_operators_policy->get_propositional_task().compute_dlplan_state(s), preferred_operators_policy->get_propositional_task().get_denotations_caches()));
+        // }
+        // for (const auto& numerical : preferred_operators_policy->get_policy().get_numericals()) {
+        //     std::cout << "numerical: " << numerical->get_index() 
+        //               << " value: " << numerical->evaluate(preferred_operators_policy->get_propositional_task().compute_dlplan_state(s)) 
+        //               << " value cache: " << numerical->evaluate(preferred_operators_policy->get_propositional_task().compute_dlplan_state(s), preferred_operators_policy->get_propositional_task().get_denotations_caches())
+        //               << " repr: " << numerical->compute_repr() << std::endl;
+        //     assert(numerical->evaluate(preferred_operators_policy->get_propositional_task().compute_dlplan_state(s)) == numerical->evaluate(preferred_operators_policy->get_propositional_task().compute_dlplan_state(s), preferred_operators_policy->get_propositional_task().get_denotations_caches()));
+        // }
+        // for (auto rule : rules){
+        //     cout << "Candidate rule: " << rule->get_index() << " repr: " << rule->str() << endl;
+        // }
     }
-    cout << endl;
-    cout << endl;
+//     cout << endl;
+//     cout << endl;
 
 
 
@@ -279,19 +275,19 @@ SearchStatus EagerSearch::expand(
 
         
         //if (pref_policy) {
-            cout << "Operation: " << op.get_name() << endl;
-            cout << "Preferred: " << (pref_policy ? "TRUE" : "FALSE") << endl;
-            std::cout << "Succeeding state: " << preferred_operators_policy->get_propositional_task().compute_dlplan_state(succ_state).str() << std::endl;
-            for (auto numerical : preferred_operators_policy->get_policy().get_numericals()){
+           // cout << "Operation: " << op.get_name() << endl;
+           // cout << "Preferred: " << (pref_policy ? "TRUE" : "FALSE") << endl;
+           // std::cout << "Succeeding state: " << preferred_operators_policy->get_propositional_task().compute_dlplan_state(succ_state).str() << std::endl;
+           // for (auto numerical : preferred_operators_policy->get_policy().get_numericals()){
                 
-                std::cout << "repr: " << numerical->compute_repr() << std::endl;
-                std::cout << "value: " << numerical->evaluate(preferred_operators_policy->get_propositional_task().compute_dlplan_state(succ_state)) << std::endl;
-            }
+           //     std::cout << "repr: " << numerical->compute_repr() << std::endl;
+           //     std::cout << "value: " << numerical->evaluate(preferred_operators_policy->get_propositional_task().compute_dlplan_state(succ_state)) << std::endl;
+           // }
         //}
         
-        if (succ_state.get_id().value == 424) {
+        // if (succ_state.get_id().value == 424) {
             //exit(1);
-        }
+        // }
 
         SearchNode succ_node = search_space.get_node(succ_state);
 
@@ -301,14 +297,14 @@ SearchStatus EagerSearch::expand(
 
         // Previously encountered dead end. Don't re-evaluate.
         if (succ_node.is_dead_end()){
-            cout << "DEAD END" << endl;
+            // cout << "DEAD END" << endl;
             continue;
         }
         if (succ_node.is_new()) {
             // We have not seen this state before.
             // Evaluate and create a new node.
 
-            cout << "NEW" << endl;
+            // cout << "NEW" << endl;
 
             if (is_preferred) {
                 ++num_preferred_states;
@@ -326,7 +322,7 @@ SearchStatus EagerSearch::expand(
             statistics.inc_evaluated_states();
 
             if (open_list->is_dead_end(succ_eval_context)) {
-                cout << "DEAD END" << endl;
+                // cout << "DEAD END" << endl;
                 succ_node.mark_as_dead_end();
                 statistics.inc_dead_ends();
                 continue;
@@ -394,7 +390,7 @@ SearchStatus EagerSearch::expand(
         //     }
         //     cout << "Node state: " << status << endl;
         }
-        cout << endl;
+        // cout << endl;
     }
 
     return IN_PROGRESS;

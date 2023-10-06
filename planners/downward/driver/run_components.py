@@ -17,7 +17,7 @@ from .plan_manager import PlanManager
 REL_TRANSLATE_PATH = os.path.join("translate", "translate.py")
 if os.name == "posix":
     REL_SEARCH_PATH = "downward"
-    VALIDATE = "Validate"
+    VALIDATE = "validate"
 elif os.name == "nt":
     REL_SEARCH_PATH = "downward.exe"
     VALIDATE = "validate.exe"
@@ -191,7 +191,7 @@ def run_validate(args):
 
     try:
         call.check_call(
-            "Validate",
+            "validate",
             [VALIDATE] + validate_inputs,
             time_limit=args.validate_time_limit,
             memory_limit=args.validate_memory_limit)
